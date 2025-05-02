@@ -17,6 +17,9 @@ RUN npx prisma generate
 # Copy the rest of the application
 COPY . .
 
+# Fix permissions for nest CLI
+RUN chmod +x ./node_modules/.bin/nest
+
 # Expose port
 EXPOSE 3000
 
