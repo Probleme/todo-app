@@ -15,7 +15,6 @@ stop:
 down:
 	docker-compose -f docker-compose.yml down
 
-# View logs of specific containers
 postgres-logs:
 	docker-compose -f docker-compose.yml logs -f postgres
 
@@ -31,10 +30,5 @@ fclean: clean
 	docker system prune -a --volumes -f
 
 re: fclean all
-
-# # New command to create an admin user
-# create-admin:
-# 	@echo "Creating admin user..."
-# 	docker-compose exec backend node scripts/seedInitialAdmin.js "$(EMAIL)" "$(NAME)"
 
 .PHONY: all build down clean fclean re up start stop postgres-logs redis-logs api-logs

@@ -2,9 +2,9 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
-// import { PrismaModule } from './prisma/prisma.module';
-// import { UsersModule } from './modules/users/users.module';
-// import { AuthModule } from './modules/auth/auth.module';
+import { PrismaModule } from './prisma/prisma.module';
+import { UsersModule } from './modules/users/users.module';
+import { AuthModule } from './modules/auth/auth.module';
 // import { TodosModule } from './modules/todos/todos.module';
 import { CacheModule } from '@nestjs/cache-manager';
 import * as redisStore from 'cache-manager-redis-store';
@@ -29,9 +29,9 @@ import * as redisStore from 'cache-manager-redis-store';
         ttl: 300, // 5 minutes
       }),
     }),
-    // PrismaModule,
-    // UsersModule,
-    // AuthModule,
+    PrismaModule,
+    UsersModule,
+    AuthModule,
     // TodosModule,
   ],
   providers: [

@@ -24,4 +24,4 @@ RUN chmod +x ./node_modules/.bin/nest
 EXPOSE 3000
 
 # Command to run in development mode
-CMD ["npm", "run", "start:dev"]
+CMD ["sh", "-c", "npx prisma migrate dev --name init && npm run start:dev"]
