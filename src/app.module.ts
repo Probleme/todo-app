@@ -5,7 +5,7 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { PrismaModule } from './prisma/prisma.module';
 import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
-// import { TodosModule } from './modules/todos/todos.module';
+import { TodosModule } from './modules/todos/todos.module';
 import { CacheModule } from '@nestjs/cache-manager';
 import * as redisStore from 'cache-manager-redis-store';
 
@@ -32,7 +32,7 @@ import * as redisStore from 'cache-manager-redis-store';
     PrismaModule,
     UsersModule,
     AuthModule,
-    // TodosModule,
+    TodosModule,
   ],
   providers: [
     {
