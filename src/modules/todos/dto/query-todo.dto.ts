@@ -14,19 +14,6 @@ import { Transform, Type } from 'class-transformer';
 
 export class QueryTodoDto {
   @ApiPropertyOptional({ 
-    enum: [true, false], 
-    description: 'Filter by completion status'
-  })
-  @IsOptional()
-  @IsBoolean()
-  @Transform(({ value }) => {
-    if (value === 'true') return true;
-    if (value === 'false') return false;
-    return value;
-  })
-  isCompleted?: boolean;
-
-  @ApiPropertyOptional({ 
     enum: Priority, 
     description: 'Filter by priority'
   })
@@ -76,9 +63,9 @@ export class QueryTodoDto {
     description: 'Page number for pagination'
   })
   @IsOptional()
+  @Type(() => Number)
   @IsInt()
   @Min(1)
-  @Type(() => Number)
   page?: number = 1;
 
   @ApiPropertyOptional({ 
@@ -88,9 +75,9 @@ export class QueryTodoDto {
     description: 'Number of items per page'
   })
   @IsOptional()
+  @Type(() => Number)
   @IsInt()
   @Min(1)
   @Max(100)
-  @Type(() => Number)
   limit?: number = 10;
 }

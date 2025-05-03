@@ -36,9 +36,9 @@ export class TodosService {
     }
   }
 
-  async findAll(userId: number, queryDto: QueryTodoDto) {
+  // Fixed: Make queryDto optional with default empty object
+  async findAll(userId: number, queryDto: QueryTodoDto = {}) {
     const { 
-      isCompleted, 
       priority, 
       search, 
       tag, 
@@ -57,10 +57,6 @@ export class TodosService {
 
     // Build filter conditions
     const where: Prisma.TodoWhereInput = { userId };
-    
-    if (isCompleted !== undefined) {
-      where.isCompleted = isCompleted;
-    }
     
     if (priority) {
       where.priority = priority;
