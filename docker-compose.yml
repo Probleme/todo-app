@@ -53,44 +53,6 @@ services:
     networks:
       - todo-network
 
-  test-api:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: todo-test-api
-    restart: on-failure
-    ports:
-      - "3001:3000"
-    depends_on:
-      - test-db
-      - redis
-    environment:
-      - NODE_ENV=test
-      - PORT=3000
-      - DATABASE_URL=postgresql://postgres:password@test-db:5432/todo_test_db?schema=public
-      - JWT_SECRET=18aacb75f408e76316a0a8333b761f190e22a12aa16815cbc66515d53f28c298
-      - JWT_ACCESS_EXPIRATION=15m
-      - JWT_REFRESH_EXPIRATION=7d
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
-    networks:
-      - todo-network
-
-  test-db:
-    image: postgres:14-alpine
-    container_name: todo-test-db
-    restart: unless-stopped
-    ports:
-      - "5434:5432"
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: todo_test_db
-    volumes:
-      - postgres_test_data:/var/lib/postgresql/data
-    networks:
-      - todo-network
-
 networks:
   todo-network:
     driver: bridge

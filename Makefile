@@ -1,58 +1,31 @@
-all: up
+# Local development and testing commands
+.PHONY: setup test test-e2e reset-test-db install dev
 
-up: build
-	docker-compose -f docker-compose.yml up #-d
+# Install dependencies
+install:
+	npm install
 
-build:
-	docker-compose -f docker-compose.yml build
+# Run the development server
+dev:
+	npm run start:dev
 
-start:
-	docker-compose -f docker-compose.yml start
+# Setup the test environment
+setup:
+	npx prisma generate
+	npx prisma migrate reset --force --schema=./prisma/schema.prisma
 
-stop:
-	docker-compose -f docker-compose.yml stop
+# Reset test database
+reset-test-db:
+	npx prisma migrate reset --force --schema=./prisma/schema.prisma
 
-down:
-	docker-compose -f docker-compose.yml down
+# Run unit tests
+test: reset-test-db
+	npm run test
 
-postgres-logs:
-	docker-compose -f docker-compose.yml logs -f postgres
+# Lint code
+lint:
+	npm run lint
 
-redis-logs:
-	docker-compose -f docker-compose.yml logs -f redis
-
-api-logs:
-	docker-compose -f docker-compose.yml logs -f api
-
-clean: down
-
-fclean: clean
-	docker system prune -a --volumes -f
-
-re: fclean all
-
-# Run unit tests inside the test-api service
-test:
-	docker-compose up -d test-api test-db redis
-	@echo "Waiting for test services to initialize..."
-	sleep 10
-	docker exec -it todo-test-api npm run test
-	docker-compose down
-
-# Run E2E tests inside the test-api service
-test-e2e:
-	docker-compose up -d test-api test-db redis
-	@echo "Waiting for test services to initialize..."
-	sleep 10
-	docker exec -it todo-test-api npm run test:e2e
-	docker-compose down
-
-# Setup the test database
-test-setup:
-	docker-compose up -d test-api test-db redis
-	@echo "Waiting for test services to initialize..."
-	sleep 10
-	docker exec -it todo-test-api npm run test:setup
-	docker-compose down
-
-.PHONY: all build down clean fclean re up start stop postgres-logs redis-logs api-logs test test-e2e test-setup
+# Format code
+format:
+	npm run format

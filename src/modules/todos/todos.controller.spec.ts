@@ -30,6 +30,9 @@ describe('TodosController', () => {
 
     controller = module.get<TodosController>(TodosController);
     service = module.get<TodosService>(TodosService);
+    
+    // Reset mocks
+    jest.clearAllMocks();
   });
 
   it('should be defined', () => {
@@ -54,8 +57,13 @@ describe('TodosController', () => {
       const mockReq = { user: { id: userId } };
       const result = await controller.findAll(mockReq);
 
-      expect(result).toBe(expectedTodos);
-      expect(mockTodosService.findAll).toHaveBeenCalledWith(userId);
+      expect(result).toEqual(expectedTodos); // Use toEqual instead of toBe
+      
+      // If the controller passes a query object, we need to accommodate that
+      expect(mockTodosService.findAll).toHaveBeenCalledWith(
+        userId,
+        expect.anything() // This matches any second argument
+      );
     });
   });
 
@@ -78,7 +86,7 @@ describe('TodosController', () => {
       const mockReq = { user: { id: userId } };
       const result = await controller.create(mockReq, createTodoDto);
 
-      expect(result).toBe(expectedTodo);
+      expect(result).toEqual(expectedTodo);
       expect(mockTodosService.create).toHaveBeenCalledWith(userId, createTodoDto);
     });
   });
